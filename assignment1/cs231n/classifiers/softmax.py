@@ -47,7 +47,8 @@ def softmax_loss_naive(W, X, y, reg):
 
     # normalized hinge loss plus regularization
     loss = loss / num_train + reg * np.sum(W * W)
-    dW /= num_train + 2 * reg * W
+    dW /= num_train
+    dW += 2 * reg * W
 
     #############################################################################
     # TODO:                                                                     #
