@@ -31,6 +31,7 @@ def softmax_loss_naive(W, X, y, reg):
     num_train = X.shape[0]
     for i in range(num_train):
         scores = X[i].dot(W)
+        # This will produce a row vector of scores for each class
 
         # compute the probabilities in numerically stable way
         scores -= np.max(scores)
@@ -38,11 +39,15 @@ def softmax_loss_naive(W, X, y, reg):
         p /= p.sum()  # normalize
         logp = np.log(p)
 
+        p[y[i]] -= 1
+        dW += np.outer(X[i], p)
+
         loss -= logp[y[i]]  # negative log probability is the loss
 
 
     # normalized hinge loss plus regularization
     loss = loss / num_train + reg * np.sum(W * W)
+    dW /= num_train + 2 * reg * W
 
     #############################################################################
     # TODO:                                                                     #

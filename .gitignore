@@ -3,3 +3,4 @@ __pycache__/
 *.ipynb_checkpoints/
 assignment1/cs231n/datasets/cifar-10-batches-py/
 *.pyc
+assignment1/cs231n/datasets/imagenet_val_25.npz 
