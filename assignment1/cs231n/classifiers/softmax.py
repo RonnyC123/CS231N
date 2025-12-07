@@ -79,7 +79,22 @@ def softmax_loss_vectorized(W, X, y, reg):
     # Implement a vectorized version of the softmax loss, storing the           #
     # result in loss.                                                           #
     #############################################################################
-
+    num_train = X.shape[0]
+    
+    # 1. Compute scores
+    scores = X.dot(W)
+    
+    # 2. Numerical stability: subtract max score per row
+    scores -= np.max(scores, axis=1, keepdims=True)
+    
+    # 3. Compute softmax probabilities
+    exp_scores = np.exp(scores)
+    probs = exp_scores / np.sum(exp_scores, axis=1, keepdims=True)
+    
+    # 4. Compute loss
+    correct_logprobs = -np.log(probs[np.arange(num_train), y])
+    loss = np.sum(correct_logprobs) / num_train
+    loss += reg * np.sum(W * W)
 
     #############################################################################
     # TODO:                                                                     #
@@ -90,6 +105,19 @@ def softmax_loss_vectorized(W, X, y, reg):
     # to reuse some of the intermediate values that you used to compute the     #
     # loss.                                                                     #
     #############################################################################
-
+    
+    # The gradient of the loss with respect to the scores is (p - y_hot)
+    # We can modify 'probs' in place to get this.
+    dscores = probs
+    dscores[np.arange(num_train), y] -= 1
+    
+    # Divide by N (average gradient)
+    dscores /= num_train
+    
+    # Backpropagate to weights: dL/dW = X.T * dL/dscores
+    dW = X.T.dot(dscores)
+    
+    # Add regularization gradient: d(reg*W^2)/dW = 2*reg*W
+    dW += 2 * reg * W
 
     return loss, dW
