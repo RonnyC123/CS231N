@@ -1,6 +1,32 @@
-.venv/
+
+# Python
 __pycache__/
-*.ipynb_checkpoints/
+*.py[cod]
+*$py.class
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# Virtual Environments
+.venv/
+venv/
+env/
+
+# Datasets
+cifar-10-batches-py/
+cs231n/datasets/cifar-10-batches-py/
 assignment1/cs231n/datasets/cifar-10-batches-py/
-*.pyc
-assignment1/cs231n/datasets/imagenet_val_25.npz 
+assignment2/cs231n/datasets/cifar-10-batches-py/
+assignment2/cs231n/datasets/coco_captioning/
+assignment1/cs231n/datasets/imagenet_val_25.npz
+assignment2/cs231n/datasets/imagenet_val_25.npz
+*.zip
+*.tar.gz
+*.tgz
+
+# OS specific
+.DS_Store
+__MACOSX/
+
+# VS Code
+.vscode/

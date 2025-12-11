@@ -1,0 +1,11 @@
+numpy
+matplotlib
+imageio
+scikit-image
+future
+h5py
+# Cython is needed for the fast_layers build
+Cython
+# PyTorch is needed for PyTorch.ipynb and RNN_Captioning_pytorch.ipynb
+torch
+torchvision
