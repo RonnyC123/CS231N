@@ -30,3 +30,8 @@ __MACOSX/
 
 # VS Code
 .vscode/
+
+# Cython build artifacts
+build/
+*.so
+*.c

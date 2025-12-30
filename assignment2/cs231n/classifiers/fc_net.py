@@ -161,13 +161,11 @@ class FullyConnectedNet(object):
                 
             # ReLU forward
             out, relu_cache = relu_forward(out)
-            
-            # Dropout forward
-            do_cache = None
             if self.use_dropout:
-                out, do_cache = dropout_forward(out, self.dropout_param)
-                
-            caches.append((fc_cache, bn_cache, relu_cache, do_cache))
+                out, dropout_cache = dropout_forward(out, self.dropout_param)
+                caches.append((fc_cache, bn_cache, relu_cache, dropout_cache))
+            else:
+                caches.append((fc_cache, bn_cache, relu_cache))
             
         # Last layer (Affine)
         W = self.params['W%d' % self.num_layers]
@@ -198,12 +196,13 @@ class FullyConnectedNet(object):
         
         # Hidden layers
         for i in range(self.num_layers - 2, -1, -1):
-            fc_cache, bn_cache, relu_cache, do_cache = caches.pop()
             
-            # Dropout backward
             if self.use_dropout:
-                dout = dropout_backward(dout, do_cache)
-                
+                fc_cache, bn_cache, relu_cache, dropout_cache = caches.pop()
+                dout = dropout_backward(dout, dropout_cache)
+            else:
+                fc_cache, bn_cache, relu_cache = caches.pop()
+            
             # ReLU backward
             dout = relu_backward(dout, relu_cache)
             
